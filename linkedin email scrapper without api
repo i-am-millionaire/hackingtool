@@ -1,0 +1,25 @@
+import requests
+from bs4 import BeautifulSoup
+
+# Define the LinkedIn profile URL to scrape
+linkedin_profile_url = "https://www.linkedin.com/in/johndoe"
+
+# Send an HTTP GET request to the LinkedIn profile
+response = requests.get(linkedin_profile_url)
+
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse the HTML content of the profile page
+    soup = BeautifulSoup(response.text, "html.parser")
+    
+    # Find the email address (example: it's stored in a span with class 'pv-contact-info__contact-item')
+    email_element = soup.find("span", class_="pv-contact-info__contact-item")
+    
+    if email_element:
+        # Extract and print the email address
+        email = email_element.get_text()
+        print(f"Email address: {email}")
+    else:
+        print("No email address found on the LinkedIn profile.")
+else:
+    print(f"Failed to fetch the LinkedIn profile. Status code: {response.status_code}")
