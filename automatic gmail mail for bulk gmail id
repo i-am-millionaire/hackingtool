@@ -1,0 +1,51 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+
+# Gmail account information (to be provided separately)
+gmail_username = "your@gmail.com"
+gmail_password = "your_password"
+
+# Recipient email address
+recipient_email = "recipient@gmail.com"
+
+# Function to send an email
+def send_email(subject, message, attachment=None):
+    try:
+        # Create an SMTP connection
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+
+        # Log in to the Gmail account
+        server.login(gmail_username, gmail_password)
+
+        # Create the email message
+        email = MIMEMultipart()
+        email["From"] = gmail_username
+        email["To"] = recipient_email
+        email["Subject"] = subject
+
+        # Add the message body
+        email.attach(MIMEText(message, "plain"))
+
+        # Add an attachment (if provided)
+        if attachment:
+            with open(attachment, "rb") as file:
+                attachment_data = MIMEApplication(file.read(), Name="attachment.pdf")
+            attachment_data["Content-Disposition"] = f"attachment; filename=attachment.pdf"
+            email.attach(attachment_data)
+
+        # Send the email
+        server.sendmail(gmail_username, recipient_email, email.as_string())
+        server.quit()
+
+        print("Email sent successfully!")
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+# Example usage
+subject = "Hello, Niccolo"
+message = "This is a test email sent using Python."
+send_email(subject, message)
