@@ -1,0 +1,24 @@
+# Import the necessary libraries
+import xml.etree.ElementTree as ET
+
+# Create the root element for the XML data
+root = ET.Element("blogger")
+
+# Create a sample blog post entry
+entry = ET.SubElement(root, "entry")
+
+# Add the title
+title = ET.SubElement(entry, "title")
+title.text = "Sample Blog Post Title"
+
+# Add the content
+content = ET.SubElement(entry, "content")
+content.text = "This is the content of the blog post."
+
+# Create an XML tree from the root
+tree = ET.ElementTree(root)
+
+# Save the XML data to a file
+tree.write("blogger_import.xml", encoding="utf-8", xml_declaration=True)
+
+print("XML data generated successfully and saved to blogger_import.xml.")
