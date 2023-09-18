@@ -1,0 +1,22 @@
+import requests
+from bs4 import BeautifulSoup
+
+# Define the URL of the Quora topic page you want to scrape
+quora_topic_url = "https://www.quora.com/topic/Your-Topic-Here"
+
+# Send an HTTP GET request to the Quora topic page
+response = requests.get(quora_topic_url)
+
+# Parse the HTML content of the page using BeautifulSoup
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Find and extract the question elements from the page
+question_elements = soup.find_all("div", class_="q-box qu-mb--tiny")
+
+# Extract and print the questions
+for question_element in question_elements:
+    question_text = question_element.find("span", class_="q-box qu-mb--tiny qu-py--tiny qu-pt--tiny qu-mr--tiny")
+    if question_text:
+        print("• " + question_text.get_text())
+
+# Disclaimer: Web scraping may be against Quora's terms of service. Be sure to review and comply with their policies and consider the legal and ethical implications.
