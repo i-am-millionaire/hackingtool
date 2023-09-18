@@ -1,0 +1,25 @@
+class SelfLearningAI:
+    def __init__(self):
+        self.data = {}  # Initialize an empty dictionary to store data
+
+    def learn(self, input_data, output_data):
+        self.data[input_data] = output_data  # Store input-output pairs in the data dictionary
+
+    def generate_output(self, input_data):
+        if input_data in self.data:
+            return self.data[input_data]
+        else:
+            return "I don't have information on that."
+
+# Create an instance of the SelfLearningAI
+self_learning_ai = SelfLearningAI()
+
+# Example of teaching the AI and generating output
+self_learning_ai.learn("What is the capital of France?", "The capital of France is Paris.")
+self_learning_ai.learn("Who wrote 'The Prince'?", "Niccolo Machiavelli wrote 'The Prince'.")
+
+# Generate output based on input
+input_question = "What is the capital of France?"
+response = self_learning_ai.generate_output(input_question)
+
+print(response)
