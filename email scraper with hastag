@@ -1,0 +1,43 @@
+import requests
+import re
+
+# Define the Instagram hashtag you want to target
+hashtag = "your_hashtag_here"
+
+# Function to scrape email addresses from Instagram
+def scrape_emails_from_instagram(hashtag):
+    base_url = f"https://www.instagram.com/explore/tags/{hashtag}/?__a=1"
+
+    try:
+        response = requests.get(base_url)
+        if response.status_code == 200:
+            data = response.json()
+            edges = data['graphql']['hashtag']['edge_hashtag_to_top_posts']['edges']
+
+            email_pattern = r"[\w\.-]+@[\w\.-]+"
+            emails = []
+
+            for edge in edges:
+                caption = edge['node']['edge_media_to_caption']['edges'][0]['node']['text']
+                extracted_emails = re.findall(email_pattern, caption)
+                emails.extend(extracted_emails)
+
+            # Deduplicate the list of emails
+            unique_emails = list(set(emails))
+
+            return unique_emails
+
+        else:
+            print("Failed to fetch Instagram data.")
+            return []
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return []
+
+# Call the function to scrape emails
+scraped_emails = scrape_emails_from_instagram(hashtag)
+
+# Print the scraped email addresses
+for email in scraped_emails:
+    print(email)
