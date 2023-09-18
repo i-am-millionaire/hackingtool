@@ -1,0 +1,23 @@
+import requests
+
+# List of URLs to fetch
+urls_to_fetch = [
+    "https://example1.com",
+    "https://example2.com",
+    "https://example3.com"
+]
+
+# Function to fetch and print content for each URL
+def fetch_urls(urls):
+    for url in urls:
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                print(f"Content fetched from {url}:\n{response.text}\n")
+            else:
+                print(f"Failed to fetch {url}. Status code: {response.status_code}\n")
+        except Exception as e:
+            print(f"Error fetching {url}: {str(e)}\n")
+
+# Call the function with the list of URLs
+fetch_urls(urls_to_fetch)
