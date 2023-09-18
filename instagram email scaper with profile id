@@ -1,0 +1,24 @@
+import requests
+from bs4 import BeautifulSoup
+
+# Replace 'your_instagram_profile' with the target Instagram profile username
+profile_username = 'your_instagram_profile'
+
+# URL of the Instagram profile
+url = f'https://www.instagram.com/{profile_username}/'
+
+# Send an HTTP GET request to the profile URL
+response = requests.get(url)
+
+# Parse the HTML content of the page
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Find email addresses within the HTML content (example pattern)
+email_pattern = r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+'
+
+# Extract email addresses from the page content
+emails = re.findall(email_pattern, soup.text)
+
+# Print the scraped email addresses
+for email in emails:
+    print(email)
